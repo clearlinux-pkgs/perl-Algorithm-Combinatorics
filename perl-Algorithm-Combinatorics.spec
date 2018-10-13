@@ -4,16 +4,16 @@
 #
 Name     : perl-Algorithm-Combinatorics
 Version  : 0.27
-Release  : 2
+Release  : 3
 URL      : https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/liba/libalgorithm-combinatorics-perl/libalgorithm-combinatorics-perl_0.27-2.debian.tar.xz
 Summary  : Efficient generation of combinatorial sequences
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
-Requires: perl-Algorithm-Combinatorics-lib
-Requires: perl-Algorithm-Combinatorics-license
-Requires: perl-Algorithm-Combinatorics-man
+Requires: perl-Algorithm-Combinatorics-lib = %{version}-%{release}
+Requires: perl-Algorithm-Combinatorics-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 NAME
@@ -22,10 +22,20 @@ sequences
 SYNOPSIS
 use Algorithm::Combinatorics qw(permutations);
 
+%package dev
+Summary: dev components for the perl-Algorithm-Combinatorics package.
+Group: Development
+Requires: perl-Algorithm-Combinatorics-lib = %{version}-%{release}
+Provides: perl-Algorithm-Combinatorics-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Algorithm-Combinatorics package.
+
+
 %package lib
 Summary: lib components for the perl-Algorithm-Combinatorics package.
 Group: Libraries
-Requires: perl-Algorithm-Combinatorics-license
+Requires: perl-Algorithm-Combinatorics-license = %{version}-%{release}
 
 %description lib
 lib components for the perl-Algorithm-Combinatorics package.
@@ -39,19 +49,11 @@ Group: Default
 license components for the perl-Algorithm-Combinatorics package.
 
 
-%package man
-Summary: man components for the perl-Algorithm-Combinatorics package.
-Group: Default
-
-%description man
-man components for the perl-Algorithm-Combinatorics package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Algorithm-Combinatorics-0.27
-mkdir -p %{_topdir}/BUILD/Algorithm-Combinatorics-0.27/deblicense/
+cd ..
+%setup -q -T -D -n Algorithm-Combinatorics-0.27 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Algorithm-Combinatorics-0.27/deblicense/
 
 %build
@@ -76,12 +78,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-Algorithm-Combinatorics
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-Algorithm-Combinatorics/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Algorithm-Combinatorics
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Algorithm-Combinatorics/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -90,16 +92,16 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/Algorithm/Combinatorics.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/Algorithm/Combinatorics.pm
+
+%files dev
+%defattr(-,root,root,-)
+/usr/share/man/man3/Algorithm::Combinatorics.3
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/auto/Algorithm/Combinatorics/Combinatorics.so
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/auto/Algorithm/Combinatorics/Combinatorics.so
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-Algorithm-Combinatorics/deblicense_copyright
-
-%files man
-%defattr(-,root,root,-)
-/usr/share/man/man3/Algorithm::Combinatorics.3
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Algorithm-Combinatorics/deblicense_copyright
