@@ -4,16 +4,17 @@
 #
 Name     : perl-Algorithm-Combinatorics
 Version  : 0.27
-Release  : 8
+Release  : 9
 URL      : https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/liba/libalgorithm-combinatorics-perl/libalgorithm-combinatorics-perl_0.27-2.debian.tar.xz
-Summary  : Efficient generation of combinatorial sequences
+Summary  : Perl module for efficient generation of combinatorial sequences
 Group    : Development/Tools
 License  : Artistic-1.0 GPL-1.0
 Requires: perl-Algorithm-Combinatorics-lib = %{version}-%{release}
 Requires: perl-Algorithm-Combinatorics-license = %{version}-%{release}
 BuildRequires : buildreq-cpan
+BuildRequires : perl(Test::More)
 
 %description
 NAME
@@ -27,6 +28,7 @@ Summary: dev components for the perl-Algorithm-Combinatorics package.
 Group: Development
 Requires: perl-Algorithm-Combinatorics-lib = %{version}-%{release}
 Provides: perl-Algorithm-Combinatorics-devel = %{version}-%{release}
+Requires: perl-Algorithm-Combinatorics = %{version}-%{release}
 
 %description dev
 dev components for the perl-Algorithm-Combinatorics package.
@@ -54,7 +56,7 @@ license components for the perl-Algorithm-Combinatorics package.
 cd ..
 %setup -q -T -D -n Algorithm-Combinatorics-0.27 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Algorithm-Combinatorics-0.27/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Algorithm-Combinatorics-0.27/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
@@ -92,7 +94,7 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.1/x86_64-linux-thread-multi/Algorithm/Combinatorics.pm
+/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/Algorithm/Combinatorics.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -100,7 +102,7 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.1/x86_64-linux-thread-multi/auto/Algorithm/Combinatorics/Combinatorics.so
+/usr/lib/perl5/vendor_perl/5.28.2/x86_64-linux-thread-multi/auto/Algorithm/Combinatorics/Combinatorics.so
 
 %files license
 %defattr(0644,root,root,0755)
