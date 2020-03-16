@@ -4,7 +4,7 @@
 #
 Name     : perl-Algorithm-Combinatorics
 Version  : 0.27
-Release  : 13
+Release  : 14
 URL      : https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FX/FXN/Algorithm-Combinatorics-0.27.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/liba/libalgorithm-combinatorics-perl/libalgorithm-combinatorics-perl_0.27-2.debian.tar.xz
@@ -81,7 +81,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Algorithm-Combinatorics
-cp %{_builddir}/Algorithm-Combinatorics-0.27/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Algorithm-Combinatorics/4ac3f33934bfa4f4c6997eb59ab63df03f2296b9
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-Algorithm-Combinatorics/4ac3f33934bfa4f4c6997eb59ab63df03f2296b9
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -105,5 +105,5 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/Algorithm/Combinatorics.pm
-/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/auto/Algorithm/Combinatorics/Combinatorics.so
+/usr/lib/perl5/vendor_perl/5.30.2/x86_64-linux-thread-multi/Algorithm/Combinatorics.pm
+/usr/lib/perl5/vendor_perl/5.30.2/x86_64-linux-thread-multi/auto/Algorithm/Combinatorics/Combinatorics.so
